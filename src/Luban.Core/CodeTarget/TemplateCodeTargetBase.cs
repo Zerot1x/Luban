@@ -2,6 +2,7 @@ using Luban.CodeFormat;
 using Luban.Defs;
 using Luban.TemplateExtensions;
 using Luban.Tmpl;
+using Luban.Types;
 using Luban.Utils;
 using Scriban;
 using Scriban.Runtime;
