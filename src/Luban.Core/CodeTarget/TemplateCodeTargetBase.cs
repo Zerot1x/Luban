@@ -127,4 +127,52 @@ public abstract class TemplateCodeTargetBase : CodeTargetBase
         tplCtx.PushGlobal(extraEnvs);
         writer.Write(template.Render(tplCtx));
     }
+    
+    public override void GenerateCodeName(GenerationContext ctx, string name)
+    {
+        var writer = new CodeWriter();
+
+        var template = GetTemplate("codename");
+        var tplCtx = CreateTemplateContext(template);
+        List<ScriptObject> dataList = new List<ScriptObject>();
+        
+        foreach (var table in ctx.ExportTables)
+        {
+            List<ScriptObject> subDataList = new List<ScriptObject>();
+            if (table.Type.ElementType is TBean tBean)
+            {
+                if (tBean.DefBean.CodeNameMap.Count > 0)
+                {
+                    foreach (var item in tBean.DefBean.CodeNameMap)
+                    {
+                        subDataList.Add(new ScriptObject
+                        {
+                            {"__key", item.Key},
+                            {"__value", item.Value},
+                        });
+                    }
+                
+                    dataList.Add(new ScriptObject
+                    {
+                        {"__name", table.Name},
+                        {"__items", subDataList},
+                    });
+                }
+            }
+        }
+        
+        var extraEnvs = new ScriptObject
+        {
+            { "__ctx", ctx},
+            { "__namespace", ctx.Target.TopModule },
+            { "__top_module", ctx.Target.TopModule },
+            { "__codename", dataList },
+            { "__code_style", CodeStyle},
+        };
+        tplCtx.PushGlobal(extraEnvs);
+        writer.Write(template.Render(tplCtx));
+        
+        var path = EnvManager.Current.GetOption(name, BuiltinOptionNames.OutputCodeDir, true);
+        FileUtil.SaveToFile(writer.ToResult(FileHeader), path, $"{GetFileNameWithoutExtByTypeName("TableCodeName")}.{FileSuffixName}");
+    }
 }

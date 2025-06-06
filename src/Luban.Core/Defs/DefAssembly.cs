@@ -383,6 +383,9 @@ public class DefAssembly
                 return TDouble.Create(nullable, tags);
             case "string":
                 return TString.Create(nullable, tags);
+            case "codename":
+                tags.Add("codename", "1");
+                return TString.Create(nullable, tags);
             case "text":
                 tags.Add("text", "1");
                 return TString.Create(nullable, tags);

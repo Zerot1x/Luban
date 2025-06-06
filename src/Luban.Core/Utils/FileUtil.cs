@@ -152,6 +152,36 @@ public static class FileUtil
 
         await WriteAllBytesAsync(outputPath, content);
     }
+    
+    /// <summary>
+    /// 保存生成的代码到指定路径
+    /// </summary>
+    /// <param name="content">生成的代码内容</param>
+    /// <param name="savePath">保存目录（如：@"D:\GeneratedCode"）</param>
+    /// <param name="fileName">文件名（不含扩展名，如："RarityEnum"）</param>
+    /// <returns>完整文件路径</returns>
+    public static string SaveToFile(string content, string savePath, string fileName)
+    {
+        try
+        {
+            // 确保目录存在
+            Directory.CreateDirectory(savePath);
+            
+            // 构建完整路径
+            var fullPath = Path.Combine(savePath, $"{fileName}.cs");
+            
+            // 写入文件（UTF-8带BOM编码）
+            File.WriteAllText(fullPath, content, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+            
+            s_logger.Debug($"文件已保存至：{fullPath}");
+            return fullPath;
+        }
+        catch (Exception ex)
+        {
+            s_logger.Error($"保存失败：{ex.Message}");
+            return null;
+        }
+    }
 
     public static async Task<byte[]> ReadAllBytesAsync(string file)
     {

@@ -20,6 +20,8 @@ public interface ICodeTarget
     void GenerateTables(GenerationContext ctx, List<DefTable> tables, CodeWriter writer);
 
     void GenerateTable(GenerationContext ctx, DefTable table, CodeWriter writer);
+    
+    void GenerateCodeName(GenerationContext ctx, string name);
 
     void GenerateBean(GenerationContext ctx, DefBean bean, CodeWriter writer);
 

@@ -69,6 +69,7 @@ public class DefaultPipeline : IPipeline
         _genCtx.LoadDatas();
         DoValidate();
         ProcessL10N();
+        ProcessCodeName();
     }
 
     protected void DoValidate()
@@ -84,6 +85,18 @@ public class DefaultPipeline : IPipeline
         if (_genCtx.TextProvider != null)
         {
             _genCtx.TextProvider.ProcessDatas();
+        }
+    }
+    
+    protected void ProcessCodeName()
+    {
+        foreach (string target in _args.CodeTargets)
+        {
+            // code target doesn't support run in parallel
+            ICodeTarget m = CodeTargetManager.Ins.CreateCodeTarget(target);
+            m.ValidateDefinition(_genCtx);
+            m.GenerateCodeName(_genCtx, target);
+            s_logger.Info("process codename target:{} end", target);
         }
     }
 

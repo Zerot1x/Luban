@@ -197,6 +197,7 @@ public abstract class CodeTargetBase : ICodeTarget
 
     public abstract void GenerateTables(GenerationContext ctx, List<DefTable> tables, CodeWriter writer);
     public abstract void GenerateTable(GenerationContext ctx, DefTable table, CodeWriter writer);
+    public abstract void GenerateCodeName(GenerationContext ctx, string name);
     public abstract void GenerateBean(GenerationContext ctx, DefBean bean, CodeWriter writer);
     public abstract void GenerateEnum(GenerationContext ctx, DefEnum @enum, CodeWriter writer);
 }

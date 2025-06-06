@@ -1,0 +1,13 @@
+{{namespace_with_grace_begin __namespace}} 
+{{~if __codename != '' ~}}
+    {{~ for item in __codename ~}}
+    public enum {{item.__name}}Code
+    {
+        {{~ for item2 in item.__items ~}}
+        {{format_enum_item_name __code_style item2.__key}} = {{item2.__value}},
+        {{~end~}}
+    }
+    
+    {{~end~}}
+{{~end~}}
+{{namespace_with_grace_end __namespace}} 
