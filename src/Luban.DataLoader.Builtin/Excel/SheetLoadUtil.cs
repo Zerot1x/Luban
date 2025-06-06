@@ -55,6 +55,23 @@ public static class SheetLoadUtil
         }
     }
 
+    public static IEnumerable<string> LoadRaw(string rawUrl, Stream stream)
+    {
+        s_logger.Trace("{filename}", rawUrl);
+        s_curExcel.Value = rawUrl;
+        string ext = Path.GetExtension(rawUrl);
+        using (var reader = ext != ".csv" ? ExcelReaderFactory.CreateReader(stream) : ExcelReaderFactory.CreateCsvReader(stream, new ExcelReaderConfiguration() { FallbackEncoding = DetectCsvEncoding(stream) }))
+        {
+            do
+            {
+                if (reader != null)
+                {
+                    yield return reader.Name;
+                }
+            } while (reader != null && reader.NextResult());
+        }
+    }
+    
     private static RawSheet ParseRawSheet(IExcelDataReader reader)
     {
         bool orientRow;

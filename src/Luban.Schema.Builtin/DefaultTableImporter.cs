@@ -18,8 +18,8 @@ public class DefaultTableImporter : ITableImporter
     public List<RawTable> LoadImportTables()
     {
         string dataDir = GenerationContext.GlobalConf.InputDataDir;
-
-        string fileNamePatternStr = EnvManager.Current.GetOptionOrDefault("tableImporter", "filePattern", false, "#(.*)");
+        
+        string fileNamePatternStr = EnvManager.Current.GetOptionOrDefault("tableImporter", "filePattern", false, "(.*)"); //"#(.*)"
         string tableNamespaceFormatStr = EnvManager.Current.GetOptionOrDefault("tableImporter", "tableNamespaceFormat", false, "{0}");
         string tableNameFormatStr = EnvManager.Current.GetOptionOrDefault("tableImporter", "tableNameFormat", false, "Tb{0}");
         string valueTypeNameFormatStr = EnvManager.Current.GetOptionOrDefault("tableImporter", "valueTypeNameFormat", false, "{0}");
@@ -32,6 +32,7 @@ public class DefaultTableImporter : ITableImporter
             // 跳过忽略文件
             if (FileUtil.IsIgnoreFile(dataDir, file))
             {
+                s_logger.Info($"跳过忽略文件 ...");
                 continue;
             }
             
@@ -42,6 +43,7 @@ public class DefaultTableImporter : ITableImporter
             // 过滤非表格文件类型
             if (!excelExts.Contains(ext))
             {
+                s_logger.Info($"过滤非表格文件类型 ...");
                 continue;
             }
             
@@ -50,7 +52,7 @@ public class DefaultTableImporter : ITableImporter
             var match = fileNamePattern.Match(fileNameWithoutExt);
             if (!match.Success || match.Groups.Count <= 1)
             {
-                // 跳过不符合命名规则的文件
+                s_logger.Info($"跳过不符合命名规则的文件 ...");
                 continue;
             }
 

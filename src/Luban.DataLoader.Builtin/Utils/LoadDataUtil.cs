@@ -262,11 +262,13 @@ static class LoadDataUtil
             case "1":
             case "y":
             case "yes":
+            case "是":
                 return true;
             case "false":
             case "0":
             case "n":
             case "no":
+            case "否":
                 return false;
             default:
                 throw new InvalidExcelDataException($"{s} 不是 bool 类型的值 (true|1|y|yes 或 false|0|n|no)");
