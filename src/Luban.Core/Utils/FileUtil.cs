@@ -225,7 +225,13 @@ public static class FileUtil
 
         Directory.Delete(rootDir, false);
     }
-
+    
+    /// <summary>
+    /// 以 . / _ / ~ 开头的文件忽略
+    /// </summary>
+    /// <param name="baseDir"></param>
+    /// <param name="file"></param>
+    /// <returns></returns>
     public static bool IsIgnoreFile(string baseDir, string file)
     {
         baseDir = Path.GetFullPath(baseDir.Replace('\\', '/'));
