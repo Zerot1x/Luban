@@ -141,7 +141,7 @@ public abstract class CodeTargetBase : ICodeTarget
             {
                 var writer = new CodeWriter();
                 GenerateTable(ctx, table, writer);
-                return CreateOutputFile($"{GetFileNameWithoutExtByTypeName(table.FullName)}.{FileSuffixName}", writer.ToResult(FileHeader));
+                return CreateOutputFile($"Tables/{GetFileNameWithoutExtByTypeName(table.FullName)}.{FileSuffixName}", writer.ToResult(FileHeader));
             }));
         }
 
@@ -151,7 +151,7 @@ public abstract class CodeTargetBase : ICodeTarget
             {
                 var writer = new CodeWriter();
                 GenerateBean(ctx, bean, writer);
-                return CreateOutputFile($"{GetFileNameWithoutExtByTypeName(bean.FullName)}.{FileSuffixName}", writer.ToResult(FileHeader));
+                return CreateOutputFile($"Beans/{GetFileNameWithoutExtByTypeName(bean.FullName)}.{FileSuffixName}", writer.ToResult(FileHeader));
             }));
         }
 
@@ -161,7 +161,7 @@ public abstract class CodeTargetBase : ICodeTarget
             {
                 var writer = new CodeWriter();
                 GenerateEnum(ctx, @enum, writer);
-                return CreateOutputFile($"{GetFileNameWithoutExtByTypeName(@enum.FullName)}.{FileSuffixName}", writer.ToResult(FileHeader));
+                return CreateOutputFile($"Enums/{GetFileNameWithoutExtByTypeName(@enum.FullName)}.{FileSuffixName}", writer.ToResult(FileHeader));
             }));
         }
 
